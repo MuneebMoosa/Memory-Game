@@ -6,7 +6,7 @@ const timerDisplay = document.getElementById('timer');
 let seconds = 0;
 let initial = null;
 startBtn.addEventListener('click' , () => {
-      if(initial === null){
+      if(initial === null ){
         loadImages();//image is loaded
         enableReveal();//we can perform reveal
         setTimeout(() => {
@@ -14,9 +14,9 @@ startBtn.addEventListener('click' , () => {
             seconds++;
             timerDisplay.innerHTML = `${seconds} seconds`;
         }, 1000);
-        }, 2000);
-      }
-})
+        }, 1500);
+    }
+  });
 //timer ends
 
 // swapping and puting
@@ -46,15 +46,62 @@ const arr = [img1 , img2 , img3 , img4 , img5 , img6
       img.src =  shuffled[i-1];
     }
   }
-  // reavel start
+  //swapping finshes
+
+  // reveal start
   let allowReveal = false;
   function enableReveal(){
     allowReveal = true;
   }
-function revealImage(placeholder){
-  if(!allowReveal) return;
-  placeholder.classList.add('hidden');
-  setTimeout(() => {
-    placeholder.style.display = 'none';
-  }, 500);
+  
+  let firstClicked = null;
+  let secondClicked = null;
+  let clickable = true;
+  let k = 0;
+  function revealImage(placeholder){
+    if(!allowReveal || !clickable) return;
+    const container = placeholder.closest('.image-cover');
+    const img = container.querySelector('img');
+
+    placeholder.classList.add('hidden');
+    setTimeout(() => {
+      placeholder.style.display = 'none';
+    }, 500);
+
+    if(!firstClicked){
+    firstClicked = {placeholder , img}
+    } else if(!secondClicked){
+    secondClicked = {placeholder , img}
+    clickable = false;
+
+    setTimeout(() => {
+      if (firstClicked.img.src === secondClicked.img.src) {
+        console.log("✅ Match found!");
+        k++;
+        resetClicks();
+        if(k === 6){
+          clearInterval(initial);
+          initial = null;
+          timerDisplay.innerHTML = `${seconds} seconds`;
+        }
+      } else {
+        console.log("❌ Not a match. Hiding images...");
+
+        // Re-show placeholders
+        firstClicked.placeholder.style.display = 'flex';
+        firstClicked.placeholder.classList.remove('hidden');
+
+        secondClicked.placeholder.style.display = 'flex';
+        secondClicked.placeholder.classList.remove('hidden');
+
+        resetClicks();
+      }
+    }, 1000); 
+  }
 }
+function resetClicks(){
+  firstClicked = null;
+  secondClicked = null;
+  clickable = true;
+}
+//reveal ends
