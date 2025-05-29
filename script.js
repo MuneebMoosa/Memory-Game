@@ -121,3 +121,26 @@ function resetTime(){
 resetTime();
 
 //reset ends
+
+// audio
+const audio = document.getElementById('myAudio');
+audioMain(audio);
+// Restore audio time after reload
+function audioMain(audio) {
+window.addEventListener('load', () => {
+    const savedTime = localStorage.getItem('audioTime');
+    if (savedTime) {
+        audio.currentTime = parseFloat(savedTime);
+    }
+    audio.play();
+});
+// Save current time 
+window.addEventListener('beforeunload', () => {
+    localStorage.setItem('audioTime', audio.currentTime);
+});
+window.addEventListener('click', () => {
+  audio.muted = false;
+  audio.play();
+  }, { once: true });
+}
+//audio ends
