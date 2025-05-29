@@ -5,11 +5,14 @@ const timerDisplay = document.getElementById('timer');
 
 let seconds = 0;
 let initial = null;
+const resetBtn = document.querySelector('.reset');
+
 startBtn.addEventListener('click' , () => {
       if(initial === null ){
         loadImages();//image is loaded
         enableReveal();//we can perform reveal
         setTimeout(() => {
+         resetBtn.style.visibility = 'visible';//make visible the reset btn
         initial = setInterval(() => {
             seconds++;
             timerDisplay.innerHTML = `${seconds} seconds`;
@@ -83,6 +86,7 @@ const arr = [img1 , img2 , img3 , img4 , img5 , img6
           clearInterval(initial);
           initial = null;
           timerDisplay.innerHTML = `${seconds} seconds`;
+
         }
       } else {
         console.log("❌ Not a match. Hiding images...");
@@ -105,3 +109,15 @@ function resetClicks(){
   clickable = true;
 }
 //reveal ends
+
+// reset start
+
+function resetTime(){
+  const reset = document.querySelector('.js-reset-btn');
+    reset.addEventListener('click' , () => {
+      location.reload();
+    })
+}
+resetTime();
+
+//reset ends
