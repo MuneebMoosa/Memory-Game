@@ -1,3 +1,21 @@
+//preload start
+const imagePaths = [
+  'images/img1.jpg',
+  'images/img1.jpg',
+  'images/img1.jpg',
+  'images/img1.jpg',
+  // Add all your card images here
+];
+
+imagePaths.forEach((src) => {
+  const imgpre= new Image();
+  imgpre.src = src;
+});
+//preload ends
+
+
+
+
 //for timer
 
 const startBtn = document.querySelector('.js-start-btn');
